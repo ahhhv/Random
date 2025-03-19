@@ -11,7 +11,7 @@ import SwiftUI
 struct RandomApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UserListFactory.create()
         }
     }
 }
