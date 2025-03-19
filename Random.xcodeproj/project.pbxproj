@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9050DD992D8B636600CBB3D5 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 9050DD982D8B636600CBB3D5 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		9050DD752D8B633B00CBB3D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,35 +31,12 @@
 		9050DD642D8B633A00CBB3D5 /* Random.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Random.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9050DD742D8B633B00CBB3D5 /* RandomTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9050DD7E2D8B633B00CBB3D5 /* RandomUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9050DD982D8B636600CBB3D5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9050DD9A2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Random" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				README.md,
-			);
-			target = 9050DD632D8B633A00CBB3D5 /* Random */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		9050DD9B2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Compile Sources" phase from "Random" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 9050DD602D8B633A00CBB3D5 /* Sources */;
-			membershipExceptions = (
-				README.md,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9050DD662D8B633A00CBB3D5 /* Random */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				9050DD9A2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Random" target */,
-				9050DD9B2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Compile Sources" phase from "Random" target */,
-			);
 			path = Random;
 			sourceTree = "<group>";
 		};
@@ -103,6 +84,7 @@
 				9050DD772D8B633B00CBB3D5 /* RandomTests */,
 				9050DD812D8B633B00CBB3D5 /* RandomUITests */,
 				9050DD652D8B633A00CBB3D5 /* Products */,
+				9050DD982D8B636600CBB3D5 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -260,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9050DD992D8B636600CBB3D5 /* README.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
