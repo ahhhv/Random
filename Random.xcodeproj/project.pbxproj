@@ -29,9 +29,33 @@
 		9050DD7E2D8B633B00CBB3D5 /* RandomUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9050DD9A2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Random" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = 9050DD632D8B633A00CBB3D5 /* Random */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		9050DD9B2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Compile Sources" phase from "Random" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 9050DD602D8B633A00CBB3D5 /* Sources */;
+			membershipExceptions = (
+				README.md,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9050DD662D8B633A00CBB3D5 /* Random */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9050DD9A2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Random" target */,
+				9050DD9B2D8B636C00CBB3D5 /* Exceptions for "Random" folder in "Compile Sources" phase from "Random" target */,
+			);
 			path = Random;
 			sourceTree = "<group>";
 		};
