@@ -24,10 +24,12 @@ struct UserDetailView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
-                
+                .accessibilityIdentifier("UserName")
+            
             Text(user.email)
                 .font(.footnote)
                 .foregroundColor(.gray)
+                .accessibilityIdentifier("UserEmail")
             
             VStack(alignment: .leading, spacing: 8) {
                 DetailRow(icon: "phone.fill", text: user.phone)

@@ -38,7 +38,6 @@ struct UserListView: View {
                                 Text(user.email).font(.subheadline).foregroundColor(.gray)
                             }
                         }
-                        
                         .swipeActions {
                             Button(role: .destructive) {
                                 viewModel.deleteUser(user)
@@ -47,6 +46,7 @@ struct UserListView: View {
                             }
                         }
                     }
+                    .accessibilityIdentifier("UserCell_\(user.id)")
                     .onAppear {
                         Task {
                             if user == viewModel.filteredUsers.last {
@@ -56,6 +56,7 @@ struct UserListView: View {
                     }
                 }
             }
+            .accessibilityIdentifier("UserList")
             .listStyle(.grouped)
             .searchable(text: $viewModel.searchText, prompt: "Search by name, surname or email")
             .navigationTitle("Random Users INC. (\(viewModel.filteredUsers.count))")
