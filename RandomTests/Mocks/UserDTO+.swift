@@ -1,5 +1,5 @@
 //
-//  UserDTO.swift
+//  UserDTO+.swift
 //  RandomTests
 //
 //  Created by Alex Hernández on 21/3/25.
