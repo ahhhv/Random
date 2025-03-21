@@ -13,11 +13,24 @@ final class UserListViewModel {
     private(set) var users: [User] = []
     private(set) var isLoading = false
     private(set) var currentPage: Int = 1
-
+    var searchText: String = ""
+    
+    var filteredUsers: [User] {
+        if searchText.isEmpty {
+            return users
+        } else {
+            return users.filter { user in
+                user.name.localizedCaseInsensitiveContains(searchText) ||
+                user.surname.localizedCaseInsensitiveContains(searchText) ||
+                user.email.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
     init(userRepository: UserRepositoryType) {
         self.userRepository = userRepository
     }
-
+    
     @MainActor
     func onAppear() async {
         do {

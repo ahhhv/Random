@@ -5,7 +5,6 @@
 //  Created by Alex Hernández on 19/3/25.
 //
 
-
 import SwiftUI
 
 struct UserDetailView: View {
