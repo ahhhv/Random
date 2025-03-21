@@ -11,7 +11,7 @@ class UserMapper {
     func map(_ users: [UserDTO]) -> [User] {
         return users.map { dto in
             User(
-                id: UUID().hashValue,
+                id: UUID().uuidString,
                 name: dto.name.first,
                 surname: dto.name.last,
                 email: dto.email,
@@ -21,7 +21,7 @@ class UserMapper {
                 city: dto.location.city,
                 state: dto.location.state,
                 picture: dto.picture.large,
-                registered: ISO8601DateFormatter().date(from: dto.registered.date) ?? Date()
+                registered: dto.registered.date
             )
         }
     }

@@ -5,28 +5,42 @@
 //  Created by Alex Hernández on 19/3/25.
 //
 
+import SwiftData
 import Foundation
 
+@MainActor
 class UserListFactory {
-    static func create() -> UserListView {
-        UserListView(viewModel: createViewModel())
+    let modelContainer: ModelContainer
+    let mainContext: ModelContext
+    
+    init() {
+        do {
+            let schema = Schema([UserEntity.self])
+            let configuration = ModelConfiguration(isStoredInMemoryOnly: false)
+            self.modelContainer = try ModelContainer(for: schema, configurations: [configuration])
+            self.mainContext = modelContainer.mainContext
+            print("✅ SwiftData ModelContainer inicializado correctamente con UserEntity.")
+        } catch {
+            fatalError("❌ Error al inicializar SwiftData ModelContainer: \(error)")
+        }
     }
-
-    private static func createViewModel() -> UserListViewModel {
-        return UserListViewModel(getUserList: createUseCase())
+    
+    func createUserListView() -> UserListView {  
+        let localDataSource = SwiftDataLocalDataSource(context: mainContext)
+        let viewModel = UserListViewModel(
+            userRepository: UserRepository(
+                apiDatasource: createDataSource(),
+                localDatasource: localDataSource,
+                mapper: UserMapper()
+            )
+        )
+        
+        return UserListView(viewModel: viewModel)
     }
-
-    private static func createUseCase() -> GetUserRepositoryType {
-        return GetUserRepository(repository: createRepository())
-    }
-
-    private static func createRepository() -> UserRepositoryType {
-        return UserRepository(apiDatasource: createDataSource(),
-                              mapper: UserMapper())
-    }
-
-    private static func createDataSource() -> ApiDataSourceType {
+    
+    private func createDataSource() -> ApiDataSourceType {
         let httpClient = URLSessionHTTPClient(requestMaker: URLSessionRequestMaker())
         return APIUserDataSource(httpClient: httpClient)
     }
 }
+

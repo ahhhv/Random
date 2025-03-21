@@ -9,6 +9,11 @@
 import Foundation
 
 class APIUserDataSource: ApiDataSourceType {
+    enum Constants {
+        static let usersPerPage: Int = 20
+        static let baseURLString = "https://randomuser.me/"
+    }
+    
     private let httpClient: HTTPClient
     
     init(httpClient: HTTPClient) {
@@ -17,9 +22,9 @@ class APIUserDataSource: ApiDataSourceType {
     
     func getUsersList(page: Int) async throws -> [UserDTO] {
         let endpoint = Endpoint(path: "api",
-                                queryParameters: ["page": page, "results": "5"])
+                                queryParameters: ["page": page, "results": Constants.usersPerPage])
         let result = try await httpClient.makeRequest(endpoint: endpoint,
-                                                  baseUrl: "https://randomuser.me/")
+                                                  baseUrl: Constants.baseURLString)
         
         guard let list = try? JSONDecoder().decode(RandomUserResponse.self,
                                                          from: result) else {

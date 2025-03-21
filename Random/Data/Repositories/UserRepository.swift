@@ -7,18 +7,35 @@
 
 import Foundation
 
-class UserRepository: UserRepositoryType {
+final class UserRepository: UserRepositoryType {
     private let apiDatasource: ApiDataSourceType
+    private let localDatasource: LocalDataSourceType
     private let mapper: UserMapper
-    
-    init(apiDatasource: ApiDataSourceType, mapper: UserMapper) {
+
+    init(apiDatasource: ApiDataSourceType,
+         localDatasource: LocalDataSourceType,
+         mapper: UserMapper) {
         self.apiDatasource = apiDatasource
+        self.localDatasource = localDatasource
         self.mapper = mapper
     }
 
     func getUsers(page: Int) async throws -> [User] {
-        let usersData = try await apiDatasource.getUsersList(page: page)
-        return mapper.map(usersData)
+        let dtos = try await apiDatasource.getUsersList(page: page)
+        let users = mapper.map(dtos)
+        try await localDatasource.save(users: users)
+        return users
+    }
+
+    func loadPersistedUsers() async throws -> [User] {
+        return try await localDatasource.fetchAll()
+    }
+
+    func saveUsers(_ users: [User]) async throws {
+        try await localDatasource.save(users: users)
+    }
+
+    func deleteUser(_ user: User) async throws {
+        try await localDatasource.delete(user)
     }
 }
-

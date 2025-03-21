@@ -18,7 +18,7 @@ struct UserDTO: Codable {
     let email: String
     let phone: String
     let picture: PictureDTO
-    let login: LoginDTO
+    let login: LoginDTO 
     let registered: RegisteredDTO
 }
 

@@ -34,7 +34,7 @@ struct UserDetailView: View {
                 DetailRow(icon: "phone.fill", text: user.phone)
                 DetailRow(icon: "person.fill", text: "Gender: \(user.gender.capitalized)")
                 DetailRow(icon: "house.fill", text: user.street)
-                DetailRow(icon: "calendar", text: "Registered: \(user.registered.formatted())")
+                DetailRow(icon: "calendar", text: "Registered: \(user.registered)")
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGray6)))
@@ -66,7 +66,7 @@ struct DetailRow: View {
 #Preview {
     UserDetailView(
         user: .init(
-            id: 1,
+            id: "1",
             name: "John Doe",
             surname: "Smith",
             email: "johndoe@example.com",
@@ -76,7 +76,7 @@ struct DetailRow: View {
             city: "New York",
             state: "NY",
             picture: "https://randomuser.me/api/portraits/men/69.jpg",
-            registered: Date()
+            registered: "2024-01-01T12:34:56Z"
         )
     )
 }
