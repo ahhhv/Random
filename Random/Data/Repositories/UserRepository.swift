@@ -31,10 +31,6 @@ final class UserRepository: UserRepositoryType {
         return try await localDatasource.fetchAll()
     }
 
-    func saveUsers(_ users: [User]) async throws {
-        try await localDatasource.save(users: users)
-    }
-
     func deleteUser(_ user: User) async throws {
         try await localDatasource.delete(user)
     }

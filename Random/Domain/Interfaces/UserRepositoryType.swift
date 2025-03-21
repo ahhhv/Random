@@ -10,6 +10,5 @@ import Foundation
 protocol UserRepositoryType {
     func getUsers(page: Int) async throws -> [User]
     func loadPersistedUsers() async throws -> [User]
-    func saveUsers(_ users: [User]) async throws
     func deleteUser(_ user: User) async throws
 }

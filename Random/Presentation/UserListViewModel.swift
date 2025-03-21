@@ -9,7 +9,10 @@ import SwiftUI
 
 @Observable
 final class UserListViewModel {
-    private let userRepository: UserRepositoryType
+    private let loadUsersUseCase: LoadUsersUseCaseType
+    private let getUsersUseCase: GetUsersUseCaseType
+    private let deleteUserUseCase: DeleteUserUseCaseType
+    
     private(set) var users: [User] = []
     private(set) var isLoading = false
     private(set) var currentPage: Int = 1
@@ -29,8 +32,12 @@ final class UserListViewModel {
         }
     }
     
-    init(userRepository: UserRepositoryType) {
-        self.userRepository = userRepository
+    init(loadUsersUseCase: LoadUsersUseCaseType,
+         getUsersUseCase: GetUsersUseCaseType,
+         deleteUsersUseCase: DeleteUserUseCaseType) {
+        self.loadUsersUseCase = loadUsersUseCase
+        self.getUsersUseCase = getUsersUseCase
+        self.deleteUserUseCase = deleteUsersUseCase
     }
         
     private func presentError(_ message: String) {
@@ -41,7 +48,7 @@ final class UserListViewModel {
     @MainActor
     func onAppear() async {
         do {
-            let localUsers = try await userRepository.loadPersistedUsers()
+            let localUsers = try await loadUsersUseCase.execute()
             if localUsers.isEmpty {
                 await loadMore()
             } else {
@@ -59,7 +66,7 @@ final class UserListViewModel {
         isLoading = true
 
         do {
-            let newUsers = try await userRepository.getUsers(page: currentPage)
+            let newUsers = try await getUsersUseCase.execute(page: currentPage)
             
             users += newUsers
             currentPage += 1
@@ -74,7 +81,7 @@ final class UserListViewModel {
     func deleteUser(_ user: User) {
         Task {
             do {
-                try await userRepository.deleteUser(user)
+                try await deleteUserUseCase.execute(user)
                 users.removeAll { $0.id == user.id }
             } catch {
                 presentError("❌ Error deleting user: \(error.localizedDescription)")

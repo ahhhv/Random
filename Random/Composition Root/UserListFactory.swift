@@ -25,16 +25,27 @@ class UserListFactory {
         }
     }
     
-    func createUserListView() -> UserListView {  
+    func createUserListView() -> UserListView {
         let localDataSource = SwiftDataLocalDataSource(context: mainContext)
-        let viewModel = UserListViewModel(
-            userRepository: UserRepository(
-                apiDatasource: createDataSource(),
-                localDatasource: localDataSource,
-                mapper: UserMapper()
-            )
+        let apiDataSource = createDataSource()
+        let mapper = UserMapper()
+
+        let userRepository = UserRepository(
+            apiDatasource: apiDataSource,
+            localDatasource: localDataSource,
+            mapper: mapper
         )
-        
+
+        let loadUsersUseCase = LoadUsersUseCase(repository: userRepository)
+        let getUsersUseCase = GetUsersUseCase(repository: userRepository)
+        let deleteUserUseCase = DeleteUserUseCase(repository: userRepository)
+
+        let viewModel = UserListViewModel(
+            loadUsersUseCase: loadUsersUseCase,
+            getUsersUseCase: getUsersUseCase,
+            deleteUsersUseCase: deleteUserUseCase
+        )
+
         return UserListView(viewModel: viewModel)
     }
     
