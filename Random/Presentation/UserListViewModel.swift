@@ -14,7 +14,9 @@ final class UserListViewModel {
     private(set) var isLoading = false
     private(set) var currentPage: Int = 1
     var searchText: String = ""
-    
+    var showErrorAlert = false
+    var errorMessage = ""
+
     var filteredUsers: [User] {
         if searchText.isEmpty {
             return users
@@ -30,6 +32,11 @@ final class UserListViewModel {
     init(userRepository: UserRepositoryType) {
         self.userRepository = userRepository
     }
+        
+    private func presentError(_ message: String) {
+        errorMessage = message
+        showErrorAlert = true
+    }
     
     @MainActor
     func onAppear() async {
@@ -42,7 +49,7 @@ final class UserListViewModel {
                 users = localUsers
             }
         } catch {
-            print("❌ Error cargando usuarios: \(error.localizedDescription)")
+            presentError("❌ Error loading local users: \(error.localizedDescription)")
         }
     }
 
@@ -56,11 +63,11 @@ final class UserListViewModel {
             
             users += newUsers
             currentPage += 1
-            isLoading = false
         } catch {
-            print(error.localizedDescription)
-            isLoading = false
+            presentError("❌ Error fetching more users: \(error.localizedDescription)")
         }
+
+        isLoading = false
     }
 
     @MainActor
@@ -70,7 +77,7 @@ final class UserListViewModel {
                 try await userRepository.deleteUser(user)
                 users.removeAll { $0.id == user.id }
             } catch {
-                print("❌ Error al borrar usuario: \(error.localizedDescription)")
+                presentError("❌ Error deleting user: \(error.localizedDescription)")
             }
         }
     }

@@ -60,6 +60,11 @@ struct UserListView: View {
             .searchable(text: $viewModel.searchText, prompt: "Search by name, surname or email")
             .navigationTitle("Random Users INC. (\(viewModel.filteredUsers.count))")
             .navigationBarTitleDisplayMode(.inline)
+            .alert("Error", isPresented: $viewModel.showErrorAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage)
+            }
             .task {
                 if viewModel.users.isEmpty {
                     await viewModel.onAppear()
