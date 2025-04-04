@@ -10,11 +10,11 @@ import Foundation
 final class UserRepository: UserRepositoryType {
     private let apiDatasource: ApiDataSourceType
     private let localDatasource: LocalDataSourceType
-    private let mapper: UserMapper
+    private let mapper: UserDTOMapper
 
     init(apiDatasource: ApiDataSourceType,
          localDatasource: LocalDataSourceType,
-         mapper: UserMapper) {
+         mapper: UserDTOMapper) {
         self.apiDatasource = apiDatasource
         self.localDatasource = localDatasource
         self.mapper = mapper

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserMapper {
+class UserDTOMapper {
     func map(_ users: [UserDTO]) -> [User] {
         return users.map { dto in
             User(

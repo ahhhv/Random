@@ -26,9 +26,11 @@ class UserListFactory {
     }
     
     func createUserListView() -> UserListView {
-        let localDataSource = SwiftDataLocalDataSource(context: mainContext)
+        let localDataSource = SwiftDataLocalDataSource(context: mainContext,
+                                                       entityMapper: UserToUserEntityMapper(),
+                                                       userMapper: EntityUserToUserMapper())
         let apiDataSource = createDataSource()
-        let mapper = UserMapper()
+        let mapper = UserDTOMapper()
 
         let userRepository = UserRepository(
             apiDatasource: apiDataSource,

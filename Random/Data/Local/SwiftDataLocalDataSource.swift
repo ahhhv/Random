@@ -10,57 +10,32 @@ import Foundation
 
 final class SwiftDataLocalDataSource: LocalDataSourceType {
     private let context: ModelContext
+    private let entityMapper: UserToUserEntityMapper
+    private let userMapper: EntityUserToUserMapper
 
-    init(context: ModelContext) {
+    init(context: ModelContext,
+         entityMapper: UserToUserEntityMapper,
+         userMapper: EntityUserToUserMapper) {
         self.context = context
+        self.entityMapper = entityMapper
+        self.userMapper = userMapper
     }
 
     func save(users: [User]) async throws {
         for (index, user) in users.enumerated() {
-            let entity = UserEntity(
-                id: user.id,
-                name: user.name,
-                surname: user.surname,
-                email: user.email,
-                gender: user.gender,
-                street: user.street,
-                phone: user.phone,
-                city: user.city,
-                state: user.state,
-                picture: user.picture,
-                registered: user.registered,
-                orderIndex: index,
-                removed: user.removed ?? false
-            )
+            let entity = entityMapper.map(index: index, from: user)
             context.insert(entity)
         }
         try context.save()
     }
-
+  
     func fetchAll() async throws -> [User] {
         do {
             let fetchDescriptor = FetchDescriptor<UserEntity>(
-                    predicate: #Predicate<UserEntity> { !$0.removed },
-                    sortBy: [SortDescriptor(\.orderIndex)]
-                )
+                sortBy: [SortDescriptor(\.orderIndex)]
+            )
             let results = try context.fetch(fetchDescriptor)
-            
-            return results.map { user in
-                User(
-                    id: user.id,
-                    name: user.name,
-                    surname: user.surname,
-                    email: user.email,
-                    gender: user.gender,
-                    street: user.street,
-                    phone: user.phone,
-                    city: user.city,
-                    state: user.state,
-                    picture: user.picture,
-                    registered: user.registered,
-                    removed: user.removed
-                )
-            }
+            return results.map(userMapper.map)
         } catch let error as NSError {
             print("❌ Error al recuperar usuarios de SwiftData: \(error), \(error.userInfo)")
             throw error

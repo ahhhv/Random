@@ -19,7 +19,7 @@ struct User: Identifiable, Hashable {
     var state: String
     var picture: String
     var registered: String
-    var removed: Bool? = false
+    var removed: Bool = false
     
     var fullName: String {
         "\(name) \(surname)"

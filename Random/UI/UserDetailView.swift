@@ -8,42 +8,57 @@
 import SwiftUI
 
 struct UserDetailView: View {
+    @Environment(\.presentationMode) var presentationMode
     let user: User
     
     var body: some View {
-        VStack(spacing: 16) {
-            AsyncImage(url: URL(string: user.picture)) { image in
-                image.resizable().scaledToFit()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 120, height: 120)
-            .clipShape(Circle())
-            
-            Text(user.name)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-                .accessibilityIdentifier("UserName")
-            
-            Text(user.email)
-                .font(.footnote)
-                .foregroundColor(.gray)
-                .accessibilityIdentifier("UserEmail")
-            
-            VStack(alignment: .leading, spacing: 8) {
-                DetailRow(icon: "phone.fill", text: user.phone)
-                DetailRow(icon: "person.fill", text: "Gender: \(user.gender.capitalized)")
-                DetailRow(icon: "house.fill", text: user.street)
-                DetailRow(icon: "calendar", text: "Registered: \(user.registered)")
+        NavigationStack {
+            VStack(spacing: 16) {
+                AsyncImage(url: URL(string: user.picture)) { image in
+                    image.resizable().scaledToFit()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 120, height: 120)
+                .clipShape(Circle())
+                
+                Text(user.name)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                    .accessibilityIdentifier("UserName")
+                
+                Text(user.email)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .accessibilityIdentifier("UserEmail")
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    DetailRow(icon: "phone.fill", text: user.phone)
+                    DetailRow(icon: "person.fill", text: "Gender: \(user.gender.capitalized)")
+                    DetailRow(icon: "house.fill", text: user.street)
+                    DetailRow(icon: "calendar", text: "Registered: \(user.registered)")
+                }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGray6)))
+                .padding(.horizontal)
+                
+                Spacer()
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemGray6)))
-            .padding(.horizontal)
-            
-            Spacer()
         }
-        .padding()
+        .navigationTitle("\(user.fullName)")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Label("Back", systemImage: "chevron.left")
+                }
+            }
+        }
     }
 }
 
@@ -55,6 +70,7 @@ struct DetailRow: View {
         HStack {
             Image(systemName: icon)
                 .foregroundColor(.blue)
+                .frame(width: 24, height: 24)
             Text(text)
                 .font(.subheadline)
                 .foregroundColor(.primary)

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct UserListView: View {
     @Bindable var viewModel: UserListViewModel
-
+    
+    
     init(viewModel: UserListViewModel) {
         self.viewModel = viewModel
     }
@@ -19,28 +20,12 @@ struct UserListView: View {
             List {
                 ForEach(viewModel.filteredUsers, id: \.id) { user in
                     NavigationLink(destination: UserDetailView(user: user)) {
-                        HStack {
-                            AsyncImage(url: URL(string: user.picture)) { image in
-                                image.resizable().scaledToFit()
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                            
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text(user.fullName).font(.headline)
-                                    Spacer()
-                                    Text(user.phone).font(.caption2).foregroundColor(.green)
-                                }
-                                
-                                Text(user.email).font(.subheadline).foregroundColor(.gray)
-                            }
-                        }
+                        UserRowView(user: user)
                         .swipeActions {
                             Button(role: .destructive) {
-                                viewModel.deleteUser(user)
+                                Task {
+                                    await viewModel.deleteUser(user)
+                                }
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
@@ -56,6 +41,13 @@ struct UserListView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: RemovedUserList(viewModel: viewModel)) {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
             .accessibilityIdentifier("UserList")
             .listStyle(.grouped)
             .searchable(text: $viewModel.searchText, prompt: "Search by name, surname or email")
@@ -67,7 +59,7 @@ struct UserListView: View {
                 Text(viewModel.errorMessage)
             }
             .task {
-                if viewModel.users.isEmpty {
+                if viewModel.filteredUsers.isEmpty {
                     await viewModel.onAppear()
                 }
             }
